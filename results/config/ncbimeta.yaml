@@ -1,0 +1,172 @@
+# User Configuration Variables
+OUTPUT_DIR : results/sqlite_db
+EMAIL : myusername@domain.com
+API_KEY :
+FORCE_PAUSE_SECONDS : 1
+DATABASE : ncov.sqlite
+
+# NCBI Tables to Query
+TABLES :
+  - BioSample
+  - Assembly
+  - Nucleotide
+
+# Query Terms to Use
+SEARCH_TERMS :
+  - BioSample : "SAMN23470133"
+  - Assembly : "MN908947.3[Accession]"
+  - Nucleotide : "
+      MN908947.3
+      OR MG772934
+      OR MG772933
+      OR MN994467
+      OR MT072688
+      OR MN988713
+      OR MT093571
+      OR MN996529
+      OR LC522972
+      OR GQ153542
+      OR KF569996
+      OR KP886809
+      OR FJ588686
+      OR KY417143
+      OR KY417142
+      OR KY417148
+      OR KY417147
+      OR KY417145
+      OR KY417151
+      OR KY417152
+      OR KC881005
+      OR KY417144
+      OR KF367457
+      OR KC881006
+      OR KY417146
+      OR AY572034
+      OR AY613950
+      OR AY572038
+      OR FJ959407
+      OR AY613947
+      OR AY568539
+      OR AY279354
+      OR AY278488
+      OR AY559082
+      OR AY559081
+      OR AY559094
+      OR AY485277
+      OR AP006557
+      OR AP006560
+      OR (SARS-CoV-2[Organism] AND Yunnan) 
+      OR (SARS-CoV-2[Organism] AND Bat)
+      "
+
+
+# Columns of the database (ie. metadata fields to retrieve)
+TABLE_COLUMNS :
+
+  - BioSample :
+    - BioSampleAccession: BioSample, accession
+    - BioSampleAccessionSecondary: NullValue
+    - BioSampleBioProjectAccession: XPATH, //Links/Link[@target='bioproject']/@label
+    - BioSampleSRAAccession: Id, db, SRA
+    - BioSampleTitle: Title
+    - BioSampleName: Id, db_label, Sample name
+    - BioSamplePackage: Package
+    - BioSampleOrganism: Description, OrganismName
+    - BioSampleOrganismAlt: Description, Organism, taxonomy_name
+    - BioSampleTaxonomyID: Organism, taxonomy_id
+    - BioSampleIsolate: Attribute, harmonized_name, isolate
+    - BioSampleCollectedBy: Attribute, harmonized_name, collected_by
+    - BioSampleCollectionDate: Attribute, harmonized_name, collection_date
+    - BioSampleGeographicLocation: Attribute, harmonized_name, geo_loc_name
+    - BioSampleHost: Attribute, harmonized_name, host
+    - BioSampleHostDisease : Attribute, harmonized_name, host_disease
+    - BioSampleHostAge : Attribute, harmonized_name, host_age
+    - BioSampleHostAgeUnit : Attribute, attribute_name, host_age_unit
+    - BioSampleHostSex : Attribute, harmonized_name, host_sex
+    - BioSampleHostAnatomicalPart : Attribute, harmonized_name, host_anatomical_part
+    - BioSamplePassageHistory : Attribute, harmonized_name, passage_history
+    - BioSampleGISAIDAccession : Attribute, harmonized_name, gisaid_accession
+    - BioSampleGISAIDVirusName : Attribute, harmonized_name, gisaid_virus_name
+    - BioSampleSequencedBy : Attribute, harmonized_name, sequenced_by
+    - BioSamplePurposeSampling : Attribute, harmonized_name, purpose_of_sampling
+    - BioSamplePurposeSequencing : Attribute, harmonized_name, purpose_of_sequencing
+    - BioSampleCollectionDevice : Attribute, harmonized_name, collection_device
+    - BioSampleDiagGeneName : Attribute, harmonized_name, sars_cov_2_diag_gene_name_1
+    - BioSamplePCRCtValue : Attribute, harmonized_name, sars_cov_2_diag_pcr_ct_value_1
+    - BioSampleIsolationSource: Attribute, harmonized_name, isolation_source
+    - BioSampleLat : Attribute, attribute_name, Latitude
+    - BioSampleLatLon : Attribute, harmonized_name, lat_lon
+    - BioSampleLon : Attribute, attribute_name, Longitude
+    - BioSampleSubmissionDate: BioSample, submission_date
+    - BioSampleModificationDate: BioSample, last_update
+    - BioSamplePublicationDate: BioSample, publication_date
+    - BioSampleOrganization: Owner, Name
+    - BioSampleComment : NullValue
+
+  - Assembly :
+    - AssemblyAccession : AssemblyAccession
+    - AssemblyBioSampleAccession : BioSampleAccn
+    - AssemblyBioSampleID : BioSampleId
+    - AssemblyGenbankBioprojectAccession : GB_BioProjects, BioprojectAccn
+    - AssemblyGenbankID : GbUid
+    - AssemblyRefseqBioprojectAccession : RS_BioProjects, BioprojectAccn
+    - AssemblyRefSeqCategory : RefSeq_category
+    - AssemblyRefSeqID : RsUid
+    - AssemblyWGSAccession : WGS
+    - AssemblyInfraspecies : InfraspeciesList, Sub_value
+    - AssemblyIsolate : Isolate
+    - AssemblyOrganism : Organism
+    - AssemblySpeciesTaxonomicID : SpeciesTaxid
+    - AssemblySpeciesName : SpeciesName
+    - AssemblyTaxonomicID : Taxid
+    - AssemblyName : AssemblyName
+    - AssemblyStatus : AssemblyStatus
+    - AssemblyType : AssemblyType
+    - AssemblyCoverage : Coverage
+    - AssemblyChromosomes : Meta, Stat, category, chromosome_count
+    - AssemblyContigCount: Meta, Stat, category, contig_count
+    - AssemblyContigN50 : Meta, Stat, category, contig_n50
+    - AssemblyContigL50 : Meta, Stat, category, contig_l50
+    - AssemblyNonChromosomalReplicons : Meta, Stat, category, non_chromosome_replicon_count
+    - AssemblyReplicons : Meta, Stat, category, replicon_count
+    - AssemblyScaffolds : Meta, Stat, category, scaffold_count
+    - AssemblyScaffoldN50 : Meta, Stat, category, scaffold_n50
+    - AssemblyScaffoldL50 : Meta, Stat, category, scaffold_l50
+    - AssemblyTotalLength : Meta, Stat, category, total_length
+    - AssemblyUngappedLength : Meta, Stat, category, ungapped_length
+    - AssemblySubmitterOrganization : SubmitterOrganization
+    - AssemblySubmissionDate : SubmissionDate
+    - AssemblyReleaseDate : SeqReleaseDate
+    - AssemblyFTPAssemblyReport : FtpPath_Assembly_rpt
+    - AssemblyFTPGenbank : FtpPath_GenBank
+    - AssemblyFTPRefSeq : FtpPath_RefSeq
+    - AssemblyFTPStatsReport : FtpPath_Stats_rpt
+    - AssemblyComment : NullValue
+
+  - Nucleotide :
+      - NucleotideAccession : GBSeq_primary-accession
+      - NucleotideAccessionVersion : GBSeq_accession-version
+      - NucleotideBioSampleAccession: XPATH, //GBXref[GBXref_dbname/text() = 'BioSample']/GBXref_id
+      - NucleotideBioProjectAccession : GBSeq_project
+      - NucleotideOrganism : GBSeq_organism
+      - NucleotideTaxonomy : GBSeq_taxonomy
+      - NucleotideIsolate : XPATH, //GBQualifier[GBQualifier_name/text() = 'isolate']/GBQualifier_value/text()      
+      - NucleotideCollectionDate : XPATH, //GBQualifier[GBQualifier_name/text() = 'collection_date']/GBQualifier_value/text()
+      - NucleotideCountry : XPATH, //GBQualifier[GBQualifier_name/text() = 'country']/GBQualifier_value/text()    
+      - NucleotideHost : XPATH, //GBQualifier[GBQualifier_name/text() = 'host']/GBQualifier_value/text()           
+      - NucleotideDefinition : GBSeq_definition
+      - NucleotideDivision : GBSeq_division
+      - NucleotideReferenceJournal: GBSeq_references, GBReference_journal
+      - NucleotideReferenceTitle : GBSeq_references, GBReference_title
+      - NucleotideReferenceAuthors : GBSeq_references, GBReference_authors, GBAuthor
+      - NucleotideLength : GBSeq_length
+      - NucleotideMoleculeType : GBSeq_moltype
+      - NucleotideSeqDataName : GBSeq_alt-seq, GBAltSeqData_name
+      - NucleotideSource : GBSeq_source
+      - NucleotideStrandedness : GBSeq_strandedness
+      - NucleotideTopology : GBSeq_topology
+      - NucleotideCreateDate : GBSeq_create-date
+      - NucleotideUpdateDate : GBSeq_update-date
+      - NucleotideGenBankComment : GBSeq_comment
+      - NucleotideSequencingTechnology: Sequencing Technology
+      - NucleotideComment : NullValue
