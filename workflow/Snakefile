@@ -1,0 +1,383 @@
+"""
+@author: Katherine Eaton
+
+ncov-phylogeography snakemake pipeline.
+
+snakemake --help
+
+"""
+
+# -----------------------------------------------------------------------------#
+#                             Modules and Packages                             #
+# -----------------------------------------------------------------------------#
+import os      # Path manipulation
+import sqlite3 # Database Query
+
+from snakemake.remote.FTP import RemoteProvider as FTPRemoteProvider
+FTP = FTPRemoteProvider()
+# Enforce minimum version
+from snakemake.utils import min_version
+min_version("5.26.1")
+
+# -----------------------------------------------------------------------------#
+#                                 Setup                                        #
+# -----------------------------------------------------------------------------#
+
+if not config:
+    #print("ERROR: Please specify --configfile")
+    #quit(1)
+    print("WARNING: Using default configfile results/config/snakemake.yaml")
+    configfile: os.path.join("results", "config", "snakemake.yaml")
+
+# Pipeline directories
+pipeline_dir = os.path.dirname(workflow.basedir)
+project_dir = os.getcwd()
+scripts_dir = os.path.join(pipeline_dir, "workflow", "scripts")
+envs_dir = os.path.join(pipeline_dir, "workflow", "envs")
+notebooks_dir = os.path.join(pipeline_dir, "workflow", "notebooks")
+report_dir = os.path.join(pipeline_dir, "workflow", "report")
+rules_dir = os.path.join(pipeline_dir, "workflow", "rules")
+
+# Project directories
+results_dir = os.path.join(project_dir, config["results_dir"])
+logs_dir = os.path.join(results_dir, "logs")
+config_dir = os.path.join(results_dir, "config")
+
+# Sub snakefiles
+include: rules_dir + "/functions.smk"
+
+# Report file
+#report: report_dir + "/workflow.rst"
+
+# -----------------------------------------------------------------------------#
+# Package Management                                                           #
+# -----------------------------------------------------------------------------#
+conda: os.path.join(pipeline_dir, "workflow/envs/main/main.yaml")
+
+# -----------------------------------------------------------------------------#
+# Environment variables                                                        #
+# -----------------------------------------------------------------------------#
+
+# Conda
+if workflow.conda_prefix:
+    os.environ["CONDA_CACHEDIR"] =  workflow.conda_prefix
+    os.environ["NXF_CONDA_CACHEDIR"] = workflow.conda_prefix
+else:
+    os.environ["CONDA_CACHEDIR"] = os.path.join(pipeline_dir, ".snakemake", "conda")
+    os.environ["NXF_CONDA_CACHEDIR"] = os.path.join(pipeline_dir, ".snakemake", "conda")
+
+# Locale settings for perl
+if "LANGUAGE" not in os.environ:
+    os.environ["LANGUAGE"] = "en_US.UTF-8"
+if "LANG" not in os.environ:
+    os.environ["LANG"] = "en_US.UTF-8"
+if "LC_ALL" not in os.environ:
+    os.environ["LC_ALL"] = "en_US.UTF-8"
+
+
+# -----------------------------------------------------------------------------#
+#                                Utility Functions                             #
+# -----------------------------------------------------------------------------#
+
+def identify_nucleotide_samples():
+    """ Parse the sqlite database to identify the nucleotide accessions."""
+    sample_list = []
+    sqlite_db_path = os.path.join(results_dir,"sqlite_db",config["sqlite_db"])
+    max_datasets = config["max_datasets_nucleotide"]
+
+    conn = sqlite3.connect(sqlite_db_path)
+    cur = conn.cursor()
+    accessions = cur.execute(config["sqlite_select_command_nuc"]).fetchall()
+    cur.close()
+
+    for acc in accessions:
+        sample_list.append(acc[0])
+    sample_list = sample_list[0:max_datasets]
+
+    return sample_list
+
+
+# -----------------------------------------------------------------------------#
+#                                Metadata                                      #
+# -----------------------------------------------------------------------------#
+
+rule metadata:
+	"""
+	Create a metadata file of filename and strain name.
+  	"""
+	output:
+		tsv			= results_dir + "/metadata/{reads_origin}/metadata.tsv",
+	params:
+		samples		= ",".join(identify_nucleotide_samples()),
+		db			= os.path.join(results_dir, "sqlite_db", config["sqlite_db"]),
+	shell:
+		"""
+        python {scripts_dir}/metadata.py \
+    	  --db {params.db} \
+    	  --samples-csv {params.samples} \
+    	  --output {output.tsv} \
+        """
+
+
+# -----------------------------------------------------------------------------#
+#                                Data Download                                 #
+# -----------------------------------------------------------------------------#
+
+rule download_nucleotide:
+    """"
+    Download files using the NCBI eutitilies.
+    """
+    message: "Downloading {wildcards.reads_origin} sample {wildcards.sample}.{wildcards.ext}"
+
+    output:
+        file = results_dir + "/data/{reads_origin}/{sample}/{sample}.{ext}"
+
+    wildcard_constraints:
+        ext = "(fna|gbff|gff)",
+	      reads_origin = "(reference|nucleotide)",
+
+    resources:
+        cpus = 1,
+
+    params:
+        url = lambda wildcards: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id={accession}&rettype={rettype}&retmode=txt&api_key={api_key}".format(
+          accession = wildcards.sample,
+          rettype   = "gb" if wildcards.ext == "gbff" else "fasta",
+          api_key   = config["api_key"],
+
+        )
+
+    shell:
+      """
+      curl -o {output.file} -s '{params.url}'
+      if [[ {wildcards.reads_origin} == "reference" ]]; then
+        if [[ {wildcards.ext} == "fna" || {wildcards.ext} == "gff" ]]; then
+          python {scripts_dir}/rename_headers.py --file {output.file};
+        fi;
+      fi;      
+      """
+
+# -----------------------------------------------------------------------------#
+#                               Genome Alignment                               #
+# -----------------------------------------------------------------------------#
+
+rule snippy_pairwise:
+  """
+  Peform a pairwise alignment of assemblies to the reference genome.
+  """
+  message: "Aligning {wildcards.reads_origin} sample {wildcards.sample} to the reference."
+
+  input:
+    data = results_dir + "/data/{reads_origin}/{sample}/{sample}.fna",
+    ref  = results_dir + "/data/reference/{sample}/{sample}.fna".format(
+            sample=config["reference_accession"],
+           )
+
+  output:
+    snippy_dir = directory(results_dir + "/snippy_pairwise/{reads_origin}/{sample}/"),
+    snps_tab   =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.tab",
+    snp_txt    =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.txt",
+    snippy_aln =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.aligned.fa",
+    snps_vcf   =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.subs.vcf",
+    raw_vcf    =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.raw.vcf",
+    log        =           results_dir + "/snippy_pairwise/{reads_origin}/{sample}/{sample}.log",  
+
+  resources:
+    load=100,
+    time_min=600,
+    cpus=workflow.global_resources["cpus"] if ("cpus" in workflow.global_resources) else 1,
+    mem_mb=workflow.global_resources["mem_mb"] if ("mem_mb" in workflow.global_resources) else 4000,
+
+  wildcard_constraints:
+    reads_origin="(local|nucleotide)", 
+    
+  shell:
+    """
+    snippy \
+      --prefix {wildcards.sample} \
+      --reference {input.ref} \
+      --outdir {output.snippy_dir} \
+      --ctgs {input.data} \
+      --mapqual {config[map_qual]} \
+      --mincov {config[min_depth]} \
+      --minfrac {config[min_frac]} \
+      --basequal {config[base_qual]} \
+      --force \
+      --cpus {resources.cpus} \
+      --report; 
+    """
+
+# -----------------------------------------------------------------------------#
+rule snippy_multi:
+  """
+  Peform a multiple alignment from pairwise output.
+  """
+  input:
+    snippy_pairwise_dir = [
+                          results_dir + "/snippy_pairwise/{reads_origin}/" + "{accession}/".format(
+                            accession=accession,
+                          )
+                          for accession in identify_nucleotide_samples()
+                          ],
+    ref                 = results_dir + "/data/reference/{sample}/{sample}.fna".format(
+                          sample=config["reference_accession"],
+                          )    
+  output:
+    full_aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln", 
+    log                 = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.log",
+
+  shell:
+    """
+    set +e;
+    snippy-core \
+      --ref {input.ref} \
+      --prefix {results_dir}/snippy_multi/{wildcards.reads_origin}/snippy-multi \
+      --mask auto \
+      --mask-char {config[mask_char]} \
+      {input.snippy_pairwise_dir} > {output.log};
+    exitcode=$?;
+    if [ $exitcode -eq 1 ]
+    then
+        exit 1
+    else
+        exit 0
+    fi      
+    """
+
+# -----------------------------------------------------------------------------#
+#                               Phylogeny                                      #
+# -----------------------------------------------------------------------------#
+
+rule iqtree:
+    """
+    Construct a maximum likelihood phylogeny.
+    """
+
+    input:
+        aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln",
+
+    output:
+        nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
+        iqtree         = results_dir + "/iqtree/{reads_origin}/iqtree.iqtree",
+        log            = results_dir + "/iqtree/{reads_origin}/iqtree.log",
+
+    params:
+        seed           = config["iqtree_seed"],
+        model          = config["iqtree_model"],
+        runs           = config["iqtree_runs"],
+        other          = config["iqtree_other"],        
+        prefix         = results_dir + "/iqtree/{reads_origin}/iqtree",
+
+    resources:
+        load           = 100,
+        time_min       = 600,
+      	cpus           = workflow.global_resources["cpus"] if ("cpus" in workflow.global_resources) else 1,
+        mem_mb         = workflow.global_resources["mem_mb"] if ("mem_mb" in workflow.global_resources) else 4000,
+
+    shell:
+        """
+        iqtree \
+            -s {input.aln} \
+		    {params.model} \
+            --threads-max {resources.cpus} \
+            -nt {resources.cpus} \
+            -seed {params.seed} \
+            --runs {params.runs} \
+            {params.other} \
+            -redo \
+            -pre {params.prefix} > {output.log};
+        mv {params.prefix}.treefile {output.nwk};
+        """
+
+# -----------------------------------------------------------------------------#
+#                               Visualization                                  #
+# -----------------------------------------------------------------------------#
+
+rule auspice:
+    """
+    Create an interactive auspice visualization.
+    """
+
+    input:
+        nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
+        metadata       = results_dir + "/metadata/{reads_origin}/metadata.tsv",
+    output:
+        json           = results_dir + "/auspice/{reads_origin}/iqtree.json",
+        log           = results_dir + "/auspice/{reads_origin}/auspice.log",       
+    params:
+        out_dir        = results_dir + "/auspice/nucleotide/",        
+
+    shell:
+        """
+        python3 {scripts_dir}/nwk2auspice.py \
+          --tree {input.nwk} \
+          --outdir {params.out_dir} \
+          --metadata {input.metadata} > {output.log}
+        """
+
+
+# -----------------------------------------------------------------------------#
+# High Level Targets                                                           #
+# -----------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# Metadata
+
+rule metadata_samples:
+    input:
+        results_dir + "/metadata/nucleotide/metadata.tsv"
+
+#------------------------------------------------------------------------------#
+# Data Download
+
+rule download_reference_fna:
+    input:
+        "{results_dir}/data/reference/{accession}/{accession}.fna".format(
+            results_dir=results_dir,
+            accession=config["reference_accession"],
+        )
+
+rule download_reference_gbff:
+    input:
+        "{results_dir}/data/reference/{accession}/{accession}.gbff".format(
+            results_dir=results_dir,
+            accession=config["reference_accession"],
+        )
+
+rule download_samples:
+  input:
+    [
+      "{results_dir}/data/nucleotide/{accession}/{accession}.fna".format(
+        results_dir=results_dir,
+        accession=accession,
+      )
+      for accession in identify_nucleotide_samples()
+    ]
+
+#------------------------------------------------------------------------------#
+# Alignment
+
+rule snippy_pairwise_samples:
+  input:
+    [
+      "{results_dir}/snippy_pairwise/nucleotide/{accession}/{accession}.aligned.fa".format(
+        results_dir=results_dir,
+        accession=accession,
+      )
+      for accession in identify_nucleotide_samples()
+    ]
+
+rule snippy_multi_samples:
+  input:
+    results_dir + "/snippy_multi/nucleotide/snippy-multi.log"
+
+#------------------------------------------------------------------------------#
+# Phylogeny
+  
+rule iqtree_samples:
+  input:
+    results_dir + "/iqtree/nucleotide/iqtree.nwk"
+
+rule auspice_samples:
+  input:
+    results_dir + "/auspice/nucleotide/iqtree.json",
