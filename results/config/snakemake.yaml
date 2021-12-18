@@ -10,7 +10,7 @@ api_key : "b2174fc1bf4bb642a599e0cb239005a08b08"
 sqlite_db : "ncov.sqlite"
 sqlite_select_command_nuc : SELECT NucleotideAccession FROM Nucleotide WHERE NucleotideComment NOT LIKE "%remove%"
 
-max_datasets_nucleotide : 10
+max_datasets_nucleotide : 100
 
 # Reference Genome (NCBI Nucleotide Database)
 reference_accession : "MN908947"

@@ -1,1 +1,7 @@
 .snakemake
+results/data
+results/iqtree
+results/snippy_pairwise
+results/snippy_multi
+results/auspice
+results/metadata

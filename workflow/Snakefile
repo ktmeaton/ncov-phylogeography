@@ -96,7 +96,6 @@ def identify_nucleotide_samples():
 
     return sample_list
 
-
 # -----------------------------------------------------------------------------#
 #                                Metadata                                      #
 # -----------------------------------------------------------------------------#
@@ -378,6 +377,17 @@ rule iqtree_samples:
   input:
     results_dir + "/iqtree/nucleotide/iqtree.nwk"
 
+auspice_input = results_dir + "/auspice/nucleotide/iqtree.json",
 rule auspice_samples:
   input:
-    results_dir + "/auspice/nucleotide/iqtree.json",
+    auspice_input
+
+
+
+# -----------------------------------------------------------------------------#
+#                                Default                                       #
+# -----------------------------------------------------------------------------#
+
+rule all:
+    input:
+        auspice_input
