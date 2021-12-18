@@ -1,0 +1,29 @@
+# Snakemake Configuration File
+
+# Directories
+results_dir: results
+
+api_key : "b2174fc1bf4bb642a599e0cb239005a08b08"
+
+
+# SQLITE Parameters
+sqlite_db : "ncov.sqlite"
+sqlite_select_command_nuc : SELECT NucleotideAccession FROM Nucleotide WHERE NucleotideComment NOT LIKE "%remove%"
+
+max_datasets_nucleotide : 100
+
+# Reference Genome (NCBI Nucleotide Database)
+reference_accession : "MN908947"
+
+# Multiple Alignment
+map_qual: 30
+min_depth: 10
+min_frac: 0.9
+base_qual: 20
+mask_char: "X"
+
+# Phylogeny
+iqtree_model : "-m MFP"
+iqtree_seed : "4425453254"
+iqtree_runs : 10
+iqtree_other : "--ufboot 1000"
