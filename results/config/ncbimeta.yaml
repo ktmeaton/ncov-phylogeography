@@ -16,48 +16,10 @@ SEARCH_TERMS :
   - BioSample : "SAMN23470133"
   - Assembly : "MN908947.3[Accession]"
   - Nucleotide : "
-      MN908947.3
-      OR MG772934
-      OR MG772933
-      OR MN994467
-      OR MT072688
-      OR MN988713
-      OR MT093571
-      OR MN996529
-      OR LC522972
-      OR GQ153542
-      OR KF569996
-      OR KP886809
-      OR FJ588686
-      OR KY417143
-      OR KY417142
-      OR KY417148
-      OR KY417147
-      OR KY417145
-      OR KY417151
-      OR KY417152
-      OR KC881005
-      OR KY417144
-      OR KF367457
-      OR KC881006
-      OR KY417146
-      OR AY572034
-      OR AY613950
-      OR AY572038
-      OR FJ959407
-      OR AY613947
-      OR AY568539
-      OR AY279354
-      OR AY278488
-      OR AY559082
-      OR AY559081
-      OR AY559094
-      OR AY485277
-      OR AP006557
-      OR AP006560
-      OR (SARS-CoV-2[Organism] AND Yunnan) 
-      OR (SARS-CoV-2[Organism] AND Bat)
-      "
+      Severe acute respiratory syndrome-related coronavirus[Organism] 
+        NOT Severe acute respiratory syndrome coronavirus 2[Organism] 
+        AND (20000[SLEN] : 50000[SLEN])
+    "
 
 
 # Columns of the database (ie. metadata fields to retrieve)

@@ -2,8 +2,7 @@
 
 # Directories
 results_dir: results
-
-api_key : "b2174fc1bf4bb642a599e0cb239005a08b08"
+api_key : "12345"
 
 
 # SQLITE Parameters
