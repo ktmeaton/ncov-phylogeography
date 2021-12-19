@@ -2,15 +2,18 @@
 
 # Directories
 results_dir: results
-
-api_key : "b2174fc1bf4bb642a599e0cb239005a08b08"
+api_key : ""
 
 
 # SQLITE Parameters
 sqlite_db : "ncov.sqlite"
-sqlite_select_command_nuc : SELECT NucleotideAccession FROM Nucleotide WHERE NucleotideComment NOT LIKE "%remove%"
+sqlite_select_command_nuc : "SELECT NucleotideAccession FROM Nucleotide WHERE 
+	NucleotideComment NOT LIKE '%remove%'
+	AND length(NucleotideIsolate) > 0
+	AND length(NucleotideCollectionDate) > 0
+	AND length(NucleotideCountry) > 0"
 
-max_datasets_nucleotide : 100
+max_datasets_nucleotide : 200
 
 # Reference Genome (NCBI Nucleotide Database)
 reference_accession : "MN908947"
@@ -22,8 +25,13 @@ min_frac: 0.9
 base_qual: 20
 mask_char: "X"
 
+missing_data: 5
+keep_singleton : "--keep-singleton"
+
 # Phylogeny
 iqtree_model : "-m MFP"
 iqtree_seed : "4425453254"
-iqtree_runs : 10
+iqtree_runs : 1
+#iqtree_other : ""
 iqtree_other : "--ufboot 1000"
+midpoint_root : True

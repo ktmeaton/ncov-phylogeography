@@ -1,0 +1,43 @@
+2021-12-19 00:04:53,562 Reading the input fasta file: /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/snippy_multi/nucleotide/snippy-multi.full.aln
+2021-12-19 00:04:53,614 Reading alignment length...
+2021-12-19 00:04:53,614 Alignment length: 29903
+2021-12-19 00:04:53,614 Reading alignment sample names...
+2021-12-19 00:04:53,614 Number of samples: 51
+2021-12-19 00:04:53,615 Analyzing alignment for sites with >=0.95 samples with data...
+2021-12-19 00:04:53,660 5% Complete
+2021-12-19 00:04:53,706 10% Complete
+2021-12-19 00:04:53,751 15% Complete
+2021-12-19 00:04:53,795 20% Complete
+2021-12-19 00:04:53,840 25% Complete
+2021-12-19 00:04:53,884 30% Complete
+2021-12-19 00:04:53,929 35% Complete
+2021-12-19 00:04:53,974 40% Complete
+2021-12-19 00:04:54,021 45% Complete
+2021-12-19 00:04:54,096 50% Complete
+2021-12-19 00:04:54,203 55% Complete
+2021-12-19 00:04:54,485 60% Complete
+2021-12-19 00:04:54,530 65% Complete
+2021-12-19 00:04:54,576 70% Complete
+2021-12-19 00:04:54,620 75% Complete
+2021-12-19 00:04:54,665 80% Complete
+2021-12-19 00:04:54,710 85% Complete
+2021-12-19 00:04:54,754 90% Complete
+2021-12-19 00:04:54,798 95% Complete
+2021-12-19 00:04:54,843 100% Complete
+2021-12-19 00:04:54,844 Creating the filtered multiple alignment..
+2021-12-19 00:04:54,852 Writing to the output fasta file: /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/snippy_multi/nucleotide/snippy-multi.filter.aln
+2021-12-19 00:04:54,854 Constant sites: 25904 (86%)
+2021-12-19 00:04:54,854 Parsimony informative sites: 2402 (8%)
+2021-12-19 00:04:54,855 Biallelic singleton sites: 1407 (4%)
+2021-12-19 00:04:54,855 Multiallelic singleton sites: 57 (0%)
+2021-12-19 00:04:54,856 Pseudo singleton sites: 133 (0%)
+2021-12-19 00:04:54,856 Total singleton sites: 1597 (5%)
+2021-12-19 00:04:54,857 Singleton sites passing missing data filter: 104
+2021-12-19 00:04:54,857 Parsimony informative sites passing missing data filter: 415
+2021-12-19 00:04:54,857 Filtered nucleotides: 26469
+2021-12-19 00:04:54,858 Ambiguous nucleotides: 260 (0%)
+2021-12-19 00:04:54,858 Total sites passing missing data filter: 519
+2021-12-19 00:04:54,859 Total sites failing missing data filter: 3480
+2021-12-19 00:04:54,859 Total nucleotides passing missing data filter: 26469
+2021-12-19 00:04:54,859 Ambiguous nucleotides passing missing data filter: 260
+2021-12-19 00:04:54,860 Wrote a multi-fasta alignment of length: 519

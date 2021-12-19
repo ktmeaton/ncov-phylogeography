@@ -119,9 +119,10 @@ geocode_dict = {}  # Name: [lat, lon]
 output_headers_main = [
     "sample",
     "isolate",
-    "date",
+    "collection_date",
     "country",
     "province",
+    "species",
 ]
 
 output_ref_vals = [
@@ -130,6 +131,7 @@ output_ref_vals = [
     "2019-12-XX",
     "China",
     "Hubei",
+    "SARS-CoV-2"
 ]
 
 
@@ -169,7 +171,8 @@ for sample in samples_list:
               NucleotideAccession,
               NucleotideIsolate,
               NucleotideCollectionDate,
-              NucleotideCountry
+              NucleotideCountry,
+              NucleotideSpecies
             FROM
               Nucleotide
             WHERE
@@ -187,7 +190,8 @@ for sample in samples_list:
         "NA",  # isolate [1]
         "NA",  # date [2]
         "NA",  # country [3]
-        "NA",  # province [4]        
+        "NA",  # province [4]   
+        "NA",  # species [5]                
     ]
 
     if result:
@@ -212,6 +216,10 @@ for sample in samples_list:
             if len(location_split) > 1:
                 province = location_split[1].lstrip()
                 output_main_vals[4] = province
+
+        species = result[4]
+        if species:
+            output_main_vals[5] = species
 
 
     # Write data to main output file

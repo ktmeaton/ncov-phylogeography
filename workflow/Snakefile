@@ -168,7 +168,7 @@ rule snippy_pairwise:
 
   input:
     data = results_dir + "/data/{reads_origin}/{sample}/{sample}.fna",
-    ref  = results_dir + "/data/reference/{sample}/{sample}.fna".format(
+    ref  = results_dir + "/data/reference/{sample}/{sample}.gbff".format(
             sample=config["reference_accession"],
            )
 
@@ -224,6 +224,12 @@ rule snippy_multi:
   output:
     full_aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln", 
     log                 = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.log",
+    filter_aln          = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln", 
+    filter_log          = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.log", 
+
+  params:
+    missing_data        = config["missing_data"],
+    keep_singleton      = config["keep_singleton"],
 
   shell:
     """
@@ -234,6 +240,14 @@ rule snippy_multi:
       --mask auto \
       --mask-char {config[mask_char]} \
       {input.snippy_pairwise_dir} > {output.log};
+
+    python {scripts_dir}/filter_sites.py \
+      --fasta {output.full_aln} \
+      --missing {params.missing_data} \
+      {params.keep_singleton} \
+      --output {output.filter_aln} \
+      --log {output.filter_log};
+
     exitcode=$?;
     if [ $exitcode -eq 1 ]
     then
@@ -253,7 +267,7 @@ rule iqtree:
     """
 
     input:
-        aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln",
+        aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln",
 
     output:
         nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
@@ -264,8 +278,10 @@ rule iqtree:
         seed           = config["iqtree_seed"],
         model          = config["iqtree_model"],
         runs           = config["iqtree_runs"],
-        other          = config["iqtree_other"],        
+        other          = config["iqtree_other"],   
+        outdir         = results_dir + "/iqtree/{reads_origin}/",    
         prefix         = results_dir + "/iqtree/{reads_origin}/iqtree",
+        reroot         = config["midpoint_root"]
 
     resources:
         load           = 100,
@@ -285,8 +301,53 @@ rule iqtree:
             {params.other} \
             -redo \
             -pre {params.prefix} > {output.log};
-        mv {params.prefix}.treefile {output.nwk};
+
+        if [[ {params.reroot} ]]; then
+          python3 {scripts_dir}/root_midpoint.py -t {params.prefix}.treefile -o {params.outdir}
+        else
+          mv {params.prefix}.treefile {output.nwk};        
+        fi    
         """
+
+rule augur:
+    """
+    Reconstruct ancestral sequences and identify nucleotide mutations along branches.
+    """
+
+    input:
+      tree           = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",    
+      aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln",
+      ref            = results_dir + "/data/reference/{sample}/{sample}.gff".format(
+                        sample=config["reference_accession"],
+                      )      
+ 
+    output:
+      tree           = results_dir + "/augur/{reads_origin}/augur.nwk",      
+      json_nt        = results_dir + "/augur/{reads_origin}/nt_muts.json", 
+      json_aa        = results_dir + "/augur/{reads_origin}/aa_muts.json", 
+
+    params:
+      inference      = "joint",                      
+
+    shell:
+      """
+      augur refine \
+        --tree {input.tree} \
+        --output-tree {output.tree}
+
+      augur ancestral \
+        --tree {output.tree} \
+        --alignment {input.aln} \
+        --inference {params.inference} \
+        --output-node-data {output.json_nt}
+
+      augur translate \
+        --tree {output.tree} \
+        --ancestral-sequences {output.json_nt} \
+        --reference-sequence {input.ref} \
+        --output-node-data {output.json_aa}    
+      """
+
 
 # -----------------------------------------------------------------------------#
 #                               Visualization                                  #
@@ -300,9 +361,12 @@ rule auspice:
     input:
         nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
         metadata       = results_dir + "/metadata/{reads_origin}/metadata.tsv",
+        #json_nt        = results_dir + "/augur/{reads_origin}/nt_muts.json",
+        #json_aa        = results_dir + "/augur/{reads_origin}/aa_muts.json",
+        colors         = results_dir + "/config/colors.tsv",
+
     output:
-        json           = results_dir + "/auspice/{reads_origin}/iqtree.json",
-        log           = results_dir + "/auspice/{reads_origin}/auspice.log",       
+        json           = results_dir + "/auspice/{reads_origin}/iqtree.json",     
     params:
         out_dir        = results_dir + "/auspice/nucleotide/",        
 
@@ -311,7 +375,8 @@ rule auspice:
         python3 {scripts_dir}/nwk2auspice.py \
           --tree {input.nwk} \
           --outdir {params.out_dir} \
-          --metadata {input.metadata} > {output.log}
+          --metadata {input.metadata} \
+          --colors {input.colors}
         """
 
 
@@ -376,6 +441,11 @@ rule snippy_multi_samples:
 rule iqtree_samples:
   input:
     results_dir + "/iqtree/nucleotide/iqtree.nwk"
+
+augur_input = results_dir + "/augur/nucleotide/aa_muts.json"
+rule augur_samples:
+  input:
+    augur_input
 
 auspice_input = results_dir + "/auspice/nucleotide/iqtree.json",
 rule auspice_samples:

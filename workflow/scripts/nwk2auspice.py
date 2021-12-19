@@ -224,8 +224,21 @@ def auspice_export(
     type=click.Path(exists=True, dir_okay=False, allow_dash=True),
     required=False,
 )
+@click.option(
+    "--nt-muts",
+    help="Augur ancestral nucleotide mutations.",
+    type=click.Path(exists=True, dir_okay=False, allow_dash=True),
+    required=False,
+)
+@click.option(
+    "--aa-muts",
+    help="Augur ancestral amino acids.",
+    type=click.Path(exists=True, dir_okay=False, allow_dash=True),
+    required=False,
+)
 def main(
-    tree: str, outdir: str, metadata: str, config: str, colors: str,
+    tree: str, outdir: str, metadata: str, config: str, colors: str, nt_muts: str,
+    aa_muts: str,
 ):
     """This script converts a newick tree to an auspice nextstrain json."""
 
@@ -234,6 +247,8 @@ def main(
     out_dir = outdir
     auspice_config_path = config
     auspice_colors_path = colors
+    nt_muts_path = nt_muts
+    aa_muts_path = aa_muts
 
     # -------------------------------------------------------------------------
     # Import Tree
@@ -311,9 +326,15 @@ def main(
 
     # -------------------------------------------------------------------------
     # Auspice JSON
+    augur_json_paths = [out_path_json]
+    if nt_muts:
+        augur_json_paths += [nt_muts_path]
+    if aa_muts:
+        augur_json_paths += [aa_muts_path]
+
     auspice_dict = auspice_export(
         tree=tree,
-        augur_json_paths=[out_path_json],
+        augur_json_paths=augur_json_paths,
         auspice_config_path=auspice_config_path,
         auspice_colors_path=auspice_colors_path,
         auspice_latlons_path=None,
@@ -336,6 +357,7 @@ def main(
         indent=JSON_INDENT,
         include_version=False,
     )
+
     export_v2.validate_data_json(out_path_json)
     print("Validation successful for json: {}\n".format(out_path_json))
 
