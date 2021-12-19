@@ -28,3 +28,6 @@ dependencies:
 
 # npm:
 # - auspice@2.32.1
+
+# wget:
+# - https://github.com/tothuhien/lsd2/releases/download/v.2.3/lsd2_unix

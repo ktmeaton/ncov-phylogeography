@@ -2,7 +2,7 @@
 
 # Directories
 results_dir: results
-api_key : ""
+api_key : "b2174fc1bf4bb642a599e0cb239005a08b08"
 
 
 # SQLITE Parameters
@@ -13,7 +13,7 @@ sqlite_select_command_nuc : "SELECT NucleotideAccession FROM Nucleotide WHERE
 	AND length(NucleotideCollectionDate) > 0
 	AND length(NucleotideCountry) > 0"
 
-max_datasets_nucleotide : 200
+max_datasets_nucleotide : 50
 
 # Reference Genome (NCBI Nucleotide Database)
 reference_accession : "MN908947"

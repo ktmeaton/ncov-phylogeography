@@ -3,7 +3,7 @@
 
 ncov-phylogeography snakemake pipeline.
 
-snakemake --help
+snakemake help
 
 """
 
@@ -42,9 +42,6 @@ rules_dir = os.path.join(pipeline_dir, "workflow", "rules")
 results_dir = os.path.join(project_dir, config["results_dir"])
 logs_dir = os.path.join(results_dir, "logs")
 config_dir = os.path.join(results_dir, "config")
-
-# Sub snakefiles
-include: rules_dir + "/functions.smk"
 
 # Report file
 #report: report_dir + "/workflow.rst"
@@ -224,6 +221,7 @@ rule snippy_multi:
   output:
     full_aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.full.aln", 
     log                 = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.log",
+    constant_sites      = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.constant_sites.txt",
     filter_aln          = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln", 
     filter_log          = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.log", 
 
@@ -240,6 +238,8 @@ rule snippy_multi:
       --mask auto \
       --mask-char {config[mask_char]} \
       {input.snippy_pairwise_dir} > {output.log};
+
+    snp-sites -C {output.full_aln} > {output.constant_sites};  
 
     python {scripts_dir}/filter_sites.py \
       --fasta {output.full_aln} \
@@ -263,16 +263,19 @@ rule snippy_multi:
 
 rule iqtree:
     """
-    Construct a maximum likelihood phylogeny.
+    Estimate a maximum likelihood and time-scaled phylogeny.
     """
 
     input:
         aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln",
+        metadata       = results_dir + "/metadata/{reads_origin}/metadata.tsv",        
+        constant_sites = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.constant_sites.txt",        
 
     output:
         nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
         iqtree         = results_dir + "/iqtree/{reads_origin}/iqtree.iqtree",
         log            = results_dir + "/iqtree/{reads_origin}/iqtree.log",
+        dates          = results_dir + "/iqtree/{reads_origin}/dates.txt",        
 
     params:
         seed           = config["iqtree_seed"],
@@ -291,13 +294,16 @@ rule iqtree:
 
     shell:
         """
+        tail -n+2 {input.metadata} | cut -f 1,3 > {output.dates}
+
         iqtree \
             -s {input.aln} \
-		    {params.model} \
+		        {params.model} \
             --threads-max {resources.cpus} \
             -nt {resources.cpus} \
             -seed {params.seed} \
             --runs {params.runs} \
+            -fconst `cat {input.constant_sites}` \
             {params.other} \
             -redo \
             -pre {params.prefix} > {output.log};
@@ -308,6 +314,7 @@ rule iqtree:
           mv {params.prefix}.treefile {output.nwk};        
         fi    
         """
+
 
 rule augur:
     """
@@ -442,7 +449,12 @@ rule iqtree_samples:
   input:
     results_dir + "/iqtree/nucleotide/iqtree.nwk"
 
-augur_input = results_dir + "/augur/nucleotide/aa_muts.json"
+lsd2_input = results_dir + "/lsd2/nucleotide/lsd.log"
+rule lsd2_samples:
+  input:
+    lsd2_input    
+
+augur_input = results_dir + "/augur/nucleotide/nt_muts.json"
 rule augur_samples:
   input:
     augur_input
@@ -451,8 +463,6 @@ auspice_input = results_dir + "/auspice/nucleotide/iqtree.json",
 rule auspice_samples:
   input:
     auspice_input
-
-
 
 # -----------------------------------------------------------------------------#
 #                                Default                                       #

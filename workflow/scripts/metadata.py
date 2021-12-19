@@ -119,7 +119,7 @@ geocode_dict = {}  # Name: [lat, lon]
 output_headers_main = [
     "sample",
     "isolate",
-    "collection_date",
+    "date",
     "country",
     "province",
     "species",
@@ -128,7 +128,7 @@ output_headers_main = [
 output_ref_vals = [
     "Reference",
     "Wuhan-Hu-1",
-    "2019-12-XX",
+    "2019-12",
     "China",
     "Hubei",
     "SARS-CoV-2"
