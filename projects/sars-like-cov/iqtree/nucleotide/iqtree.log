@@ -1,0 +1,364 @@
+IQ-TREE multicore version 2.1.4-beta COVID-edition for Linux 64-bit built Jun 24 2021
+Developed by Bui Quang Minh, James Barbetti, Nguyen Lam Tung,
+Olga Chernomor, Heiko Schmidt, Dominik Schrempf, Michael Woodhams.
+
+Host:    LAPTOP-AU9N62HG (AVX2, FMA3, 9 GB RAM)
+Command: iqtree -s /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/snippy_multi/nucleotide/snippy-multi.filter.aln -m MFP --threads-max 2 -nt 2 -seed 4425453254 --runs 1 -fconst 7932,4512,5364,8085 --ufboot 1000 -redo -pre /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree
+Seed:    130485958 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Sun Dec 19 01:23:44 2021
+Kernel:  AVX+FMA - 2 threads (12 CPU cores detected)
+
+Reading alignment file /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/snippy_multi/nucleotide/snippy-multi.filter.aln ... Fasta format detected
+Alignment most likely contains DNA/RNA sequences
+Alignment has 101 sequences with 626 columns, 552 distinct patterns
+540 parsimony-informative, 86 singleton sites, 0 constant sites
+           Gap/Ambiguity  Composition  p-value
+   1  JF292909     0.00%    passed     99.47%
+   2  JF292910     0.00%    passed     99.47%
+   3  JF292911     0.00%    passed     99.47%
+   4  JF292912     0.00%    passed     99.47%
+   5  JF292913     0.00%    passed     99.47%
+   6  JF292914     0.00%    passed     99.47%
+   7  JF292915     0.00%    passed     99.47%
+   8  JF292916     0.00%    passed     99.47%
+   9  JF292917     0.00%    passed     99.47%
+  10  JF292918     0.00%    passed     99.47%
+  11  JF292919     0.00%    passed     99.47%
+  12  JF292920     0.00%    passed     99.47%
+  13  JF292921     0.00%    passed     99.47%
+  14  JF292922     0.00%    passed     98.13%
+  15  JX163923     0.00%    passed     98.96%
+  16  JX163924     0.00%    passed     98.96%
+  17  JX163925     0.00%    passed     98.96%
+  18  JX163926     0.00%    passed     98.96%
+  19  JX163927     0.00%    passed     98.96%
+  20  JX163928     0.00%    passed     98.96%
+  21  JX993987    15.18%    passed     29.34%
+  22  JX993988    17.89%    passed     81.72%
+  23  KF294455     0.32%    passed     98.22%
+  24  KF294456     2.56%    passed     41.50%
+  25  KF294457     6.39%    passed     49.27%
+  26  KF514388     0.00%    passed     99.47%
+  27  KF514389     0.00%    passed     99.47%
+  28  KF514390     0.00%    passed     99.47%
+  29  KF514391     0.00%    passed     99.47%
+  30  KF514392     0.00%    passed     99.47%
+  31  KF514393     0.00%    passed     99.47%
+  32  KF514394     0.00%    passed     99.47%
+  33  KF514395     0.00%    passed     99.47%
+  34  KF514396     0.00%    passed     99.47%
+  35  KF514397     0.00%    passed     99.47%
+  36  KF514398     0.00%    passed     99.47%
+  37  KF514399     0.00%    passed     99.47%
+  38  KF514400     0.00%    passed     99.47%
+  39  KF514401     0.00%    passed     99.47%
+  40  KF514402     0.00%    passed     99.47%
+  41  KF514403     0.00%    passed     99.47%
+  42  KF514404     0.00%    passed     99.47%
+  43  KF514405     0.00%    passed     99.47%
+  44  KF514406     0.00%    passed     99.47%
+  45  KF514407     0.00%    passed     97.74%
+  46  KF514408     0.00%    passed     99.47%
+  47  KF514409     0.00%    passed     99.47%
+  48  KF514410     0.00%    passed     99.47%
+  49  KF514411     0.00%    passed     99.47%
+  50  KF514412     0.00%    passed     99.47%
+  51  KF514413     0.00%    passed     99.47%
+  52  KF514414     0.00%    passed     99.47%
+  53  KF514415     0.00%    passed     99.47%
+  54  KF514416     0.00%    passed     99.47%
+  55  KF514417     0.00%    passed     99.47%
+  56  KF514418     0.00%    passed     99.47%
+  57  KF514419     0.00%    passed     99.47%
+  58  KF514420     0.00%    passed     99.47%
+  59  KF514421     0.00%    passed     99.47%
+  60  KF514422     0.00%    passed     99.47%
+  61  KF514423     0.00%    passed     99.47%
+  62  KJ473811     6.87%    passed     19.22%
+  63  KJ473812     0.00%    passed     51.09%
+  64  KJ473813     0.00%    passed     70.29%
+  65  KJ473814     9.42%    passed     13.83%
+  66  KJ473815     0.00%    passed     96.81%
+  67  KJ473816     0.00%    passed     94.28%
+  68  KP886808     4.31%    passed     97.52%
+  69  KP886809     4.63%    passed     92.93%
+  70  KU973692     5.75%    passed     92.86%
+  71  KY417142     0.00%    passed     97.71%
+  72  KY417143     0.00%    passed     92.93%
+  73  KY417144     0.00%    passed     94.77%
+  74  KY417145     0.00%    passed     99.85%
+  75  KY417146     0.00%    passed     87.19%
+  76  KY417147     0.00%    passed     95.50%
+  77  KY417148     0.00%    passed     97.05%
+  78  KY417149     0.00%    passed     93.68%
+  79  KY417150     0.00%    passed     90.29%
+  80  KY417151     0.00%    passed     96.44%
+  81  KY417152     0.00%    passed     95.79%
+  82  MG772933     9.58%    passed     56.57%
+  83  MG772934     5.75%    passed     92.06%
+  84  MK062179     0.00%    passed     99.47%
+  85  MK062180     0.00%    passed     99.47%
+  86  MK062181     0.00%    passed     99.47%
+  87  MK062182     0.00%    passed     99.47%
+  88  MK062183     0.00%    passed     99.47%
+  89  MK062184     0.00%    passed     99.47%
+  90  MN996532     0.00%    passed     11.38%
+  91  MT782114     4.95%    passed     35.63%
+  92  MT782115     4.95%    passed     35.63%
+  93  OL674074     0.80%    passed     19.10%
+  94  OL674075     0.00%    passed     17.74%
+  95  OL674076     0.32%    passed     19.69%
+  96  OL674077     1.28%    passed     11.80%
+  97  OL674078     1.12%    passed     17.61%
+  98  OL674079     1.12%    passed     19.44%
+  99  OL674080     2.56%    passed     22.69%
+ 100  OL674081     0.00%    passed     21.36%
+ 101  Reference    0.00%    failed      3.60%
+****  TOTAL        1.05%  1 sequences failed composition chi2 test (p-value<5%; df=3)
+INFO: 25893 const sites added into alignment
+NOTE: JF292910 is identical to JF292909 but kept for subsequent analysis
+NOTE: JX163924 is identical to JX163923 but kept for subsequent analysis
+NOTE: MT782115 is identical to MT782114 but kept for subsequent analysis
+NOTE: 56 identical sequences (see below) will be ignored for subsequent analysis
+NOTE: JF292911 (identical to JF292909) is ignored but added at the end
+NOTE: JF292912 (identical to JF292909) is ignored but added at the end
+NOTE: JF292913 (identical to JF292909) is ignored but added at the end
+NOTE: JF292914 (identical to JF292909) is ignored but added at the end
+NOTE: JF292915 (identical to JF292909) is ignored but added at the end
+NOTE: JF292916 (identical to JF292909) is ignored but added at the end
+NOTE: JF292917 (identical to JF292909) is ignored but added at the end
+NOTE: JF292918 (identical to JF292909) is ignored but added at the end
+NOTE: JF292919 (identical to JF292909) is ignored but added at the end
+NOTE: JF292920 (identical to JF292909) is ignored but added at the end
+NOTE: JF292921 (identical to JF292909) is ignored but added at the end
+NOTE: KF514388 (identical to JF292909) is ignored but added at the end
+NOTE: KF514389 (identical to JF292909) is ignored but added at the end
+NOTE: KF514390 (identical to JF292909) is ignored but added at the end
+NOTE: KF514391 (identical to JF292909) is ignored but added at the end
+NOTE: KF514392 (identical to JF292909) is ignored but added at the end
+NOTE: KF514393 (identical to JF292909) is ignored but added at the end
+NOTE: KF514394 (identical to JF292909) is ignored but added at the end
+NOTE: KF514395 (identical to JF292909) is ignored but added at the end
+NOTE: KF514396 (identical to JF292909) is ignored but added at the end
+NOTE: KF514397 (identical to JF292909) is ignored but added at the end
+NOTE: KF514398 (identical to JF292909) is ignored but added at the end
+NOTE: KF514399 (identical to JF292909) is ignored but added at the end
+NOTE: KF514400 (identical to JF292909) is ignored but added at the end
+NOTE: KF514401 (identical to JF292909) is ignored but added at the end
+NOTE: KF514402 (identical to JF292909) is ignored but added at the end
+NOTE: KF514403 (identical to JF292909) is ignored but added at the end
+NOTE: KF514404 (identical to JF292909) is ignored but added at the end
+NOTE: KF514405 (identical to JF292909) is ignored but added at the end
+NOTE: KF514406 (identical to JF292909) is ignored but added at the end
+NOTE: KF514408 (identical to JF292909) is ignored but added at the end
+NOTE: KF514409 (identical to JF292909) is ignored but added at the end
+NOTE: KF514410 (identical to JF292909) is ignored but added at the end
+NOTE: KF514411 (identical to JF292909) is ignored but added at the end
+NOTE: KF514412 (identical to JF292909) is ignored but added at the end
+NOTE: KF514413 (identical to JF292909) is ignored but added at the end
+NOTE: KF514414 (identical to JF292909) is ignored but added at the end
+NOTE: KF514415 (identical to JF292909) is ignored but added at the end
+NOTE: KF514416 (identical to JF292909) is ignored but added at the end
+NOTE: KF514417 (identical to JF292909) is ignored but added at the end
+NOTE: KF514418 (identical to JF292909) is ignored but added at the end
+NOTE: KF514419 (identical to JF292909) is ignored but added at the end
+NOTE: KF514420 (identical to JF292909) is ignored but added at the end
+NOTE: KF514421 (identical to JF292909) is ignored but added at the end
+NOTE: KF514422 (identical to JF292909) is ignored but added at the end
+NOTE: KF514423 (identical to JF292909) is ignored but added at the end
+NOTE: MK062179 (identical to JF292909) is ignored but added at the end
+NOTE: MK062180 (identical to JF292909) is ignored but added at the end
+NOTE: MK062181 (identical to JF292909) is ignored but added at the end
+NOTE: MK062182 (identical to JF292909) is ignored but added at the end
+NOTE: MK062183 (identical to JF292909) is ignored but added at the end
+NOTE: MK062184 (identical to JF292909) is ignored but added at the end
+NOTE: JX163925 (identical to JX163923) is ignored but added at the end
+NOTE: JX163926 (identical to JX163923) is ignored but added at the end
+NOTE: JX163927 (identical to JX163923) is ignored but added at the end
+NOTE: JX163928 (identical to JX163923) is ignored but added at the end
+Alignment was printed to /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.uniqueseq.phy
+
+For your convenience alignment with unique sequences printed to /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.uniqueseq.phy
+
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.003 seconds
+Perform fast likelihood tree search using GTR+I+G model...
+Estimate model parameters (epsilon = 5.000)
+Perform nearest neighbor interchange...
+Estimate model parameters (epsilon = 1.000)
+1. Initial log-likelihood: -44304.141
+2. Current log-likelihood: -44299.824
+3. Current log-likelihood: -44295.899
+4. Current log-likelihood: -44291.998
+5. Current log-likelihood: -44288.502
+6. Current log-likelihood: -44285.344
+7. Current log-likelihood: -44282.616
+8. Current log-likelihood: -44280.192
+9. Current log-likelihood: -44278.044
+10. Current log-likelihood: -44276.206
+11. Current log-likelihood: -44274.576
+12. Current log-likelihood: -44273.136
+13. Current log-likelihood: -44271.890
+14. Current log-likelihood: -44270.768
+Optimal log-likelihood: -44269.676
+Rate parameters:  A-C: 1.44060  A-G: 8.23571  A-T: 2.06233  C-G: 0.38427  C-T: 18.01722  G-T: 1.00000
+Base frequencies:  A: 0.305  C: 0.176  G: 0.205  T: 0.314
+Proportion of invariable sites: 0.907
+Gamma shape alpha: 0.157
+Parameters optimization took 14 rounds (0.204 sec)
+Time for fast ML tree search: 0.700 seconds
+
+NOTE: ModelFinder requires 10 MB RAM!
+ModelFinder will test up to 286 DNA models (sample size: 26519) ...
+ No. Model         -LnL         df  AIC          AICc         BIC
+  1  GTR+F         46459.167    95  93108.333    93109.024    93885.967
+  2  GTR+F+I       44295.080    96  88782.161    88782.866    89567.980
+  3  GTR+F+G4      45495.894    96  91183.788    91184.493    91969.607
+  4  GTR+F+I+G4    44260.776    97  88715.552    88716.272    89509.557
+  5  GTR+F+R2      44356.341    97  88906.681    88907.401    89700.686
+  6  GTR+F+R3      44308.599    99  88815.197    88815.946    89625.573
+  7  GTR+F+R4      44288.776    101 88779.553    88780.333    89606.300
+  8  GTR+F+R5      44282.295    103 88770.590    88771.401    89613.708
+ 17  SYM+I+G4      45099.316    94  90386.632    90387.308    91156.080
+ 30  TVM+F+I+G4    44297.413    96  88786.827    88787.532    89572.646
+ 43  TVMe+I+G4     45128.224    93  90442.447    90443.109    91203.709
+ 56  TIM3+F+I+G4   44275.909    95  88741.819    88742.509    89519.452
+ 69  TIM3e+I+G4    45132.160    92  90448.320    90448.967    91201.396
+ 82  TIM2+F+I+G4   44264.238    95  88718.476    88719.166    89496.109
+ 95  TIM2e+I+G4    45118.796    92  90421.593    90422.240    91174.670
+108  TIM+F+I+G4    44276.015    95  88742.030    88742.720    89519.663
+121  TIMe+I+G4     45141.992    92  90467.984    90468.632    91221.061
+134  TPM3u+F+I+G4  44311.207    94  88810.415    88811.091    89579.863
+147  TPM3+F+I+G4   44311.207    94  88810.415    88811.091    89579.863
+160  TPM2u+F+I+G4  44301.823    94  88791.646    88792.322    89561.094
+173  TPM2+F+I+G4   44301.823    94  88791.646    88792.322    89561.094
+186  K3Pu+F+I+G4   44312.740    94  88813.480    88814.156    89582.928
+199  K3P+I+G4      45170.318    91  90522.635    90523.269    91267.526
+212  TN+F+I+G4     44278.243    94  88744.486    88745.162    89513.934
+225  TNe+I+G4      45149.719    91  90481.438    90482.072    91226.329
+238  HKY+F+I+G4    44315.069    93  88816.137    88816.799    89577.400
+251  K2P+I+G4      45178.203    90  90536.405    90537.025    91273.111
+264  F81+F+I+G4    44945.888    92  90075.776    90076.424    90828.853
+277  JC+I+G4       45733.075    89  91644.149    91644.755    92372.669
+Akaike Information Criterion:           GTR+F+I+G4
+Corrected Akaike Information Criterion: GTR+F+I+G4
+Bayesian Information Criterion:         TIM2+F+I+G4
+Best-fit model: TIM2+F+I+G4 chosen according to BIC
+
+All model information printed to /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.model.gz
+CPU time for ModelFinder: 18.369 seconds (0h:0m:18s)
+Wall-clock time for ModelFinder: 9.285 seconds (0h:0m:9s)
+Generating 1000 samples for ultrafast bootstrap (seed: 130485958)...
+
+NOTE: 5 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+Thoroughly optimizing +I+G parameters from 10 start values...
+Init pinv, alpha: 0.000, 0.281 / Estimate: 0.000, 0.020 / LogL: -45501.906
+Init pinv, alpha: 0.108, 0.281 / Estimate: 0.908, 0.161 / LogL: -44273.229
+Init pinv, alpha: 0.217, 0.281 / Estimate: 0.930, 0.259 / LogL: -44264.478
+Init pinv, alpha: 0.325, 0.281 / Estimate: 0.932, 0.272 / LogL: -44264.036
+Init pinv, alpha: 0.434, 0.281 / Estimate: 0.932, 0.270 / LogL: -44264.085
+Init pinv, alpha: 0.542, 0.281 / Estimate: 0.933, 0.275 / LogL: -44263.882
+Init pinv, alpha: 0.651, 0.281 / Estimate: 0.932, 0.272 / LogL: -44264.057
+Init pinv, alpha: 0.759, 0.281 / Estimate: 0.932, 0.272 / LogL: -44264.047
+Init pinv, alpha: 0.868, 0.281 / Estimate: 0.933, 0.276 / LogL: -44264.043
+Init pinv, alpha: 0.976, 0.281 / Estimate: 0.964, 1.099 / LogL: -44262.655
+Optimal pinv,alpha: 0.964, 1.099 / LogL: -44262.655
+
+Parameters optimization took 10.009 sec
+Computing ML distances based on estimated model parameters...
+Computing ML distances took 0.011854 sec (of wall-clock time) 0.017518 sec(of CPU time)
+Computing RapidNJ tree took 0.008182 sec (of wall-clock time) 0.000000 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -44352.939
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 0.349 second
+Computing log-likelihood of 98 initial trees ... 0.254 seconds
+Current best score: -44258.621
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -44255.308
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 2: -44255.220
+Estimate model parameters (epsilon = 0.100)
+UPDATE BEST LOG-LIKELIHOOD: -44255.144
+BETTER TREE FOUND at iteration 4: -44255.139
+UPDATE BEST LOG-LIKELIHOOD: -44255.139
+Iteration 10 / LogL: -44255.150 / Time: 0h:0m:11s
+Iteration 20 / LogL: -44255.159 / Time: 0h:0m:11s
+Finish initializing candidate tree set (5)
+Current best tree score: -44255.139 / CPU time: 1.763
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 30 / LogL: -44255.482 / Time: 0h:0m:12s (0h:0m:32s left)
+Iteration 40 / LogL: -44260.034 / Time: 0h:0m:13s (0h:0m:22s left)
+Iteration 50 / LogL: -44255.445 / Time: 0h:0m:14s (0h:0m:15s left)
+Log-likelihood cutoff on original alignment: -44280.295
+Iteration 60 / LogL: -44255.547 / Time: 0h:0m:15s (0h:0m:11s left)
+Iteration 70 / LogL: -44257.085 / Time: 0h:0m:15s (0h:0m:7s left)
+Iteration 80 / LogL: -44255.169 / Time: 0h:0m:16s (0h:0m:5s left)
+Iteration 90 / LogL: -44255.143 / Time: 0h:0m:17s (0h:0m:2s left)
+Iteration 100 / LogL: -44255.224 / Time: 0h:0m:18s (0h:0m:0s left)
+Log-likelihood cutoff on original alignment: -44281.118
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.999
+TREE SEARCH COMPLETED AFTER 105 ITERATIONS / Time: 0h:0m:19s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -44255.139
+2. Current log-likelihood: -44255.092
+3. Current log-likelihood: -44255.058
+4. Current log-likelihood: -44255.025
+5. Current log-likelihood: -44254.998
+6. Current log-likelihood: -44254.972
+7. Current log-likelihood: -44254.947
+8. Current log-likelihood: -44254.927
+9. Current log-likelihood: -44254.909
+10. Current log-likelihood: -44254.892
+11. Current log-likelihood: -44254.875
+12. Current log-likelihood: -44254.861
+13. Current log-likelihood: -44254.847
+14. Current log-likelihood: -44254.835
+15. Current log-likelihood: -44254.824
+Optimal log-likelihood: -44254.812
+Rate parameters:  A-C: 2.30528  A-G: 10.30433  A-T: 2.30528  C-G: 1.00000  C-T: 25.01161  G-T: 1.00000
+Base frequencies:  A: 0.305  C: 0.176  G: 0.205  T: 0.314
+Proportion of invariable sites: 0.960
+Gamma shape alpha: 0.799
+Parameters optimization took 15 rounds (0.152 sec)
+BEST SCORE FOUND : -44254.812
+Creating bootstrap support values...
+Split supports printed to NEXUS file /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.splits.nex
+Total tree length: 0.068
+
+Total number of iterations: 105
+CPU time used for tree search: 16.422 sec (0h:0m:16s)
+Wall-clock time used for tree search: 8.913 sec (0h:0m:8s)
+Total CPU time used: 36.803 sec (0h:0m:36s)
+Total wall-clock time used: 19.362 sec (0h:0m:19s)
+
+Computing bootstrap consensus tree...
+Reading input file /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.splits.nex...
+45 taxa and 213 splits.
+Consensus tree written to /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.contree
+Reading input trees file /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.contree
+Log-likelihood of consensus tree: -44255.637
+
+Analysis results written to: 
+  IQ-TREE report:                /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.iqtree
+  Maximum-likelihood tree:       /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.treefile
+  Likelihood distances:          /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.splits.nex
+  Consensus tree:                /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.contree
+  Screen log file:               /mnt/c/Users/ktmea/Projects/ncov-phylogeography/results/iqtree/nucleotide/iqtree.log
+
+Date and Time: Sun Dec 19 01:24:13 2021

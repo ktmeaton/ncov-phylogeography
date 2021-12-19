@@ -267,16 +267,13 @@ rule iqtree:
     """
 
     input:
-        aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln",
-        metadata       = results_dir + "/metadata/{reads_origin}/metadata.tsv",        
+        aln            = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.filter.aln",      
         constant_sites = results_dir + "/snippy_multi/{reads_origin}/snippy-multi.constant_sites.txt",        
 
     output:
         nwk            = results_dir + "/iqtree/{reads_origin}/iqtree.nwk",
         iqtree         = results_dir + "/iqtree/{reads_origin}/iqtree.iqtree",
         log            = results_dir + "/iqtree/{reads_origin}/iqtree.log",
-        dates          = results_dir + "/iqtree/{reads_origin}/dates.txt",        
-
     params:
         seed           = config["iqtree_seed"],
         model          = config["iqtree_model"],
@@ -294,8 +291,6 @@ rule iqtree:
 
     shell:
         """
-        tail -n+2 {input.metadata} | cut -f 1,3 > {output.dates}
-
         iqtree \
             -s {input.aln} \
 		        {params.model} \

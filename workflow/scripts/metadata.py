@@ -119,7 +119,7 @@ geocode_dict = {}  # Name: [lat, lon]
 output_headers_main = [
     "sample",
     "isolate",
-    "date",
+    "collection_date",
     "country",
     "province",
     "species",
